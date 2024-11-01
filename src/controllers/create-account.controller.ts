@@ -29,13 +29,13 @@ export class CreateAccountController {
   async handle(@Body() body: CreateAccountBodySchema) {
     const { name, password, email } = body
 
-    const userWithSameEmai = !!this.prisma.user.findUnique({
+    const userWithSameEmail = await this.prisma.user.findUnique({
       where: {
         email,
       },
     })
 
-    if (userWithSameEmai) {
+    if (userWithSameEmail) {
       throw new UnprocessableEntityException(
         'E-mail already exists on another user.',
       )
