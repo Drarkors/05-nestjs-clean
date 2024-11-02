@@ -39,8 +39,6 @@ export class AuthenticateController {
       },
     })
 
-    console.log(this.jwt)
-
     if (!user) throw new UnauthorizedException('User credentials do not match.')
 
     const isPasswordValid = compare(password, user.password)
@@ -48,7 +46,7 @@ export class AuthenticateController {
     if (!isPasswordValid)
       throw new UnauthorizedException('User credentials do not match.')
 
-    const privateKey = this.config.get('JWT_PRIVATE_KEY')
+    const privateKey = this.config.get('JWT_PRIVATE_KEY', { infer: true })
 
     const token = this.jwt.sign(
       { sub: user.id },
