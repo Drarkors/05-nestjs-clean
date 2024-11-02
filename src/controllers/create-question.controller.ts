@@ -1,5 +1,4 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
 import { CurrentUser } from 'src/auth/current-user-decorator'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { UserPayload } from 'src/auth/jwt.strategy'
@@ -19,10 +18,7 @@ type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>
 @Controller('/questions')
 @UseGuards(JwtAuthGuard)
 export class CreateQuestionController {
-  constructor(
-    private jwt: JwtService,
-    private prisma: PrismaService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   private convertToSlug(text: string) {
     const slugText = text
