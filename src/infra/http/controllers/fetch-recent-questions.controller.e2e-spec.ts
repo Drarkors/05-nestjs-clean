@@ -59,8 +59,10 @@ describe('Fetch recent question (E2E)', () => {
 
     const response = await request(app.getHttpServer())
       .get('/questions')
-      .set('Auhtorization', `Bearer ${accessToken}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
+
+    console.log(response.body)
 
     expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual({
