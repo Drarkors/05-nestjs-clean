@@ -1,5 +1,5 @@
 import { Env } from '@/infra/env'
-import { PrismaService } from '@/infra/prisma/prisma.service'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import {
   Body,
   Controller,
