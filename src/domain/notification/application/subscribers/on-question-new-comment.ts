@@ -1,5 +1,5 @@
 import type { EventHandler } from '@/core/events/event-handler'
-import type { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import type { SendNotificationUseCase } from '../use-cases/send-notification'
 import { DomainEvents } from '@/core/events/domain-events'
 import { QuestionNewCommentEvent } from '@/domain/forum/enterprise/events/question-new-comment-event'
