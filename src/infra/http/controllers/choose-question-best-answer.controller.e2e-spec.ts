@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('Edit answer (E2E)', () => {
+describe('Choos question best answer (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -36,7 +36,7 @@ describe('Edit answer (E2E)', () => {
     await app.init()
   })
 
-  test('[PUT] /answers/:id', async () => {
+  test('[PATCH] /answers/:id/choose-as-best', async () => {
     const user = await studentFactory.makePrismaStudent()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
@@ -53,7 +53,7 @@ describe('Edit answer (E2E)', () => {
     const answerId = answer.id.toString()
 
     const response = await request(app.getHttpServer())
-      .put(`/answers/${answerId}`)
+      .patch(`/answers/${answerId}/choose-as-best`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         content: 'New answer content',
@@ -61,14 +61,12 @@ describe('Edit answer (E2E)', () => {
 
     expect(response.statusCode).toBe(204)
 
-    const answerOnDatabase = await prisma.answer.findUnique({
+    const questionOnDatabase = await prisma.question.findUnique({
       where: {
-        id: answerId,
+        id: question.id.toString(),
       },
     })
 
-    expect(answerOnDatabase).toEqual(
-      expect.objectContaining({ content: 'New answer content' }),
-    )
+    expect(questionOnDatabase?.bestAnswerId).toEqual(answer.id.toString())
   })
 })
